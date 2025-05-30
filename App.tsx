@@ -15,6 +15,7 @@ import {
 import Geolocation from 'react-native-geolocation-service';
 
 const SERVER_URL = 'http://10.0.2.2:8000/photo';
+const TEST_IMAGE = 'http://10.0.2.2:8000/static/imgs/1748630951_10_Ave_W_34_St.jpg'
 
 // Shape of each item we're rendering
 type PhotoItem = {
@@ -142,6 +143,8 @@ export default function App() {
         onPress={loadPhotos}
         disabled={loading}
       />
+      //<Text style={{marginTop: 16}}>Manual Test:</Text>
+      //<Image source={{uri: TEST_IMAGE}} style={styles.photo} />
 
       {coords && (
         <Text style={styles.coords}>
@@ -160,7 +163,18 @@ export default function App() {
         renderItem={({ item }) => (
           <View style={styles.photoCard}>
             <Text style={styles.photoLabel}>{item.address}</Text>
-            <Image source={{ uri: item.uri }} style={styles.photo} />
+            <Image 
+              source={{ uri: item.uri }} 
+              style={styles.photo} 
+              onError={(e) => {
+                console.log("❌ Failed to load imaged:", item.uri);
+                console.log("error deets:" , e.nativeEvent);
+              }}
+              onLoad={()=>{
+                console.log("✅ Loaded image:", item.uri);
+              }}
+            
+            />
           </View>
         )}
       />
