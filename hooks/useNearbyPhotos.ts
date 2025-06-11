@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Alert, Platform, PermissionsAndroid } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
+import { BACKEND_URL } from '@env';
 
-const SERVER_URL = 'http://10.0.2.2:8000/fiveNearest';
+const SERVER_URL = `${BACKEND_URL}/fiveNearest`;
 
 // Shape of each item we're rendering
 type PhotoItem = {
