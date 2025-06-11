@@ -5,6 +5,23 @@ import { BACKEND_URL } from '@env';
 
 const SERVER_URL = `${BACKEND_URL}/fiveNearest`;
 
+// NYC boundary coordinates
+const NYC_BOUNDS = {
+  LAT_MIN: 40.4774,
+  LAT_MAX: 40.9176,
+  LNG_MIN: -74.2591,
+  LNG_MAX: -73.7004
+} as const;
+
+function isWithinNYC(lat: number, lng: number): boolean {
+  return (
+    NYC_BOUNDS.LAT_MIN <= lat &&
+    lat <= NYC_BOUNDS.LAT_MAX &&
+    NYC_BOUNDS.LNG_MIN <= lng &&
+    lng <= NYC_BOUNDS.LNG_MAX
+  );
+}
+
 // Shape of each item we're rendering
 type PhotoItem = {
   address: string;
@@ -97,6 +114,12 @@ export function useNearbyPhotos() {
       }
 
       const { lat, lng } = await getCurrentPosition();
+      
+      // Check if coordinates are within NYC bounds
+      if (!isWithinNYC(lat, lng)) {
+        throw new Error('This Feature of Parking Spotter Only Works in NYC. Check your location services or VPNs');
+      }
+
       setCoords({ lat, lng });
       console.log("setCoords passes")
 
@@ -105,7 +128,7 @@ export function useNearbyPhotos() {
       setPhotos(fetched);
     } catch (err: any) {
       setError(err.message);
-      Alert.alert('Error', err.message);
+      Alert.alert('Location Error', err.message);
     } finally {
       setLoading(false);
     }

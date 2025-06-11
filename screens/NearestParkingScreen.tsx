@@ -13,6 +13,21 @@ import { useNearbyPhotos } from '../hooks/useNearbyPhotos';
 export function NearestParkingScreen() {
   const { coords, photos, loading, error, loadPhotos } = useNearbyPhotos();
 
+  // If it's the NYC boundary error, show a centered message
+  if (error?.includes(' This Feature of Parking Spotter Only Works in NYC')) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorTitle}>Location Out of Range</Text>
+        <Text style={styles.errorMessage}>{error}</Text>
+        <Button
+          title="Try Again"
+          onPress={loadPhotos}
+          disabled={loading}
+        />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screenContainer}>
       <Button
@@ -29,6 +44,7 @@ export function NearestParkingScreen() {
 
       {loading && <ActivityIndicator style={styles.loader} size="large" />}
 
+      {/* Show other types of errors in the normal way */}
       {error && <Text style={styles.errorText}>{error}</Text>}
 
       <FlatList
@@ -62,6 +78,26 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     alignItems: 'center',
     backgroundColor: '#2e003e',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#2e003e',
+    padding: 20,
+  },
+  errorTitle: {
+    color: '#ff4444',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  errorMessage: {
+    color: '#fff',
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 24,
   },
   coords: {
     marginTop: 12,
