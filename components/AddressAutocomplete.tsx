@@ -37,8 +37,7 @@ export function AddressAutocomplete({ onSelectAddress }: AddressAutocompleteProp
     const matches = Object.keys(typedCameraLocations)
       .filter(address => 
         formatAddress(address).toLowerCase().includes(searchTerm)
-      )
-      .slice(0, 5); // Limit to 5 suggestions
+      );
 
     setSuggestions(matches);
   }, []);
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 8,
     marginTop: 2,
-    maxHeight: 200,
+    maxHeight: 400,
   },
   suggestionItem: {
     padding: 15,

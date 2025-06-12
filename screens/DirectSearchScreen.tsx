@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { AddressAutocomplete } from '../components/AddressAutocomplete';
 import { CameraImage } from '../components/CameraImage';
 import cameraLocations from '../data/camera_locations.json';
@@ -52,7 +52,7 @@ export function DirectSearchScreen() {
   };
 
   return (
-    <ScrollView style={styles.screenContainer}>
+    <View style={styles.screenContainer}>
       <View style={styles.searchContainer}>
         <Text style={styles.title}>Search by Address</Text>
         <AddressAutocomplete onSelectAddress={handleAddressSelect} />
@@ -69,7 +69,7 @@ export function DirectSearchScreen() {
           />
         </View>
       )}
-    </ScrollView>
+    </View>
   );
 }
 
