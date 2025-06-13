@@ -1,0 +1,15 @@
+. Code cleanup:
+Remove any debug console.logs
+Clean up unused imports
+Update documentation
+
+
+
+
+5. Frontend improvements:
+Better error handling
+Loading states
+UI polish
+show coords in nearbycameras page 
+
+

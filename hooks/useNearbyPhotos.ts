@@ -69,16 +69,12 @@ async function fetchPhotos(
   lat: number,
   lng: number
 ): Promise<PhotoItem[]> {
-  console.log("attempting post")
-
   try {
     const response = await fetch(SERVER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ lat, lng }),
     });
-
-    console.log(response)
 
     const { images } = await response.json();
 
@@ -88,9 +84,8 @@ async function fetchPhotos(
       uri: img.url,
     }));
   } catch (err: any) {
-    console.log("fetch error:", err.message);
+    throw new Error(`Failed to fetch photos: ${err.message}`);
   }
-  return []
 }
 
 /**
@@ -121,7 +116,6 @@ export function useNearbyPhotos() {
       }
 
       setCoords({ lat, lng });
-      console.log("setCoords passes")
 
       const fetched = await fetchPhotos(lat, lng);
     

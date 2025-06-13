@@ -35,6 +35,16 @@ local.properties
 !debug.keystore
 .kotlin/
 
+# Security: Never commit release keys or sensitive config
+android/app/*.keystore
+!android/app/debug.keystore
+parking-spotter-release.keystore
+
+# Environment files with sensitive data
+.env
+.env.local
+.env.production
+
 # node.js
 #
 node_modules/

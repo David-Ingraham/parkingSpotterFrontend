@@ -13,12 +13,22 @@ import { useNearbyPhotos } from '../hooks/useNearbyPhotos';
 export function NearestParkingScreen() {
   const { coords, photos, loading, error, loadPhotos } = useNearbyPhotos();
 
-  // If it's the NYC boundary error, show a centered message
-  if (error?.includes(' This Feature of Parking Spotter Only Works in NYC')) {
+  // If it's the NYC boundary error, show a centered message with coordinates
+  if (error?.includes(' This feature of parking spotter only works in NYC')) {
     return (
       <View style={styles.errorContainer}>
         <Text style={styles.errorTitle}>Location Out of Range</Text>
         <Text style={styles.errorMessage}>{error}</Text>
+        {coords && (
+          <Text style={styles.coordsError}>
+            Current Location: Lat {coords.lat.toFixed(5)}, Lng {coords.lng.toFixed(5)}
+          </Text>
+        )}
+        <Text style={styles.helpText}>
+          Use ADB commands to set NYC coordinates:{'\n'}
+          adb shell settings put secure location mode 1{'\n'}
+          adb emu geo fix -73.9857 40.7484
+        </Text>
         <Button
           title="Try Again"
           onPress={loadPhotos}
@@ -57,13 +67,6 @@ export function NearestParkingScreen() {
             <Image 
               source={{ uri: item.uri }} 
               style={styles.photo} 
-              onError={(e) => {
-                console.log("[ERROR] Failed to load image:", item.uri);
-                console.log("error deets:" , e.nativeEvent);
-              }}
-              onLoad={()=>{
-                console.log("[SUCCESS] Loaded image:", item.uri);
-              }}
             />
           </View>
         )}
@@ -129,5 +132,19 @@ const styles = StyleSheet.create({
     width: 320,
     height: 240,
     borderRadius: 8,
+  },
+  coordsError: {
+    color: '#ffaa00',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  helpText: {
+    color: '#ccc',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 24,
+    fontFamily: 'monospace',
   },
 }); 

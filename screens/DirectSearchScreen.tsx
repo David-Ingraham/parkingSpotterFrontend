@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { AddressAutocomplete } from '../components/AddressAutocomplete';
 import { CameraImage } from '../components/CameraImage';
-import cameraLocations from '../data/camera_locations.json';
-import { CameraLocations, CameraLocation } from '../types/camera';
 import { BACKEND_URL } from '@env';
-
-// Type assertion for our JSON data
-const typedCameraLocations = cameraLocations as CameraLocations;
 
 export function DirectSearchScreen() {
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
@@ -45,7 +40,6 @@ export function DirectSearchScreen() {
       }
     } catch (err) {
       setError('Failed to load camera image. Please try again.');
-      console.error('API Error:', err);
     } finally {
       setIsLoading(false);
     }
