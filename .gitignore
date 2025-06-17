@@ -38,12 +38,16 @@ local.properties
 # Security: Never commit release keys or sensitive config
 android/app/*.keystore
 !android/app/debug.keystore
+android/gradle.properties
 parking-spotter-release.keystore
 
 # Environment files with sensitive data
 .env
 .env.local
 .env.production
+
+# Android signing configuration (contains passwords)
+android/gradle.properties
 
 # node.js
 #

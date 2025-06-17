@@ -8,8 +8,19 @@ const enforceHttps = (url: string): string => {
   return url;
 };
 
+// Get the appropriate backend URL
+const getBackendUrl = (): string => {
+  if (__DEV__) {
+    // In development, use the environment variable or fallback to emulator URL
+    return BACKEND_URL || 'http://10.0.2.2:8000';
+  } else {
+    // In production, use the environment variable (must be set)
+    return enforceHttps(BACKEND_URL || 'https://your-production-domain.com');
+  }
+};
+
 export const API_CONFIG = {
-  baseUrl: enforceHttps(BACKEND_URL),
+  baseUrl: getBackendUrl(),
   timeout: 15000,
   retryAttempts: 3,
   retryDelay: 1000,
@@ -27,8 +38,4 @@ export const ERROR_MESSAGES = {
   LOCATION: 'Location services are required for this feature.',
   TIMEOUT: 'Request timed out. Please try again.',
 } as const;
-
-// When running in Android Emulator, use 10.0.2.2 instead of localhost
-export const BACKEND_URL_DEV = __DEV__ 
-  ? 'http://10.0.2.2:8000'  // Development (Android Emulator)
-  : 'http://localhost:8000'; // Production URL (replace with your actual production URL) 
+ 

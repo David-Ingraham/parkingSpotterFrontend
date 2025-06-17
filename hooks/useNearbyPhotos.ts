@@ -110,15 +110,15 @@ export function useNearbyPhotos() {
 
       const { lat, lng } = await getCurrentPosition();
       
+      // Set coordinates first so they're available even if NYC check fails
+      setCoords({ lat, lng });
+      
       // Check if coordinates are within NYC bounds
       if (!isWithinNYC(lat, lng)) {
         throw new Error('This Feature of Parking Spotter Only Works in NYC. Check your location services or VPNs');
       }
 
-      setCoords({ lat, lng });
-
       const fetched = await fetchPhotos(lat, lng);
-    
       setPhotos(fetched);
     } catch (err: any) {
       setError(err.message);
